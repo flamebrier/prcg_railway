@@ -70,6 +70,8 @@ namespace Roshchina_Anastasia_pri117_railway
             this.buttonForward.Size = new System.Drawing.Size(40, 40);
             this.buttonForward.TabIndex = 1;
             this.buttonForward.UseVisualStyleBackColor = false;
+            this.buttonForward.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonForward_MouseDown);
+            this.buttonForward.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonForward_MouseUp);
             // 
             // buttonRotLeft
             // 
@@ -83,6 +85,8 @@ namespace Roshchina_Anastasia_pri117_railway
             this.buttonRotLeft.Size = new System.Drawing.Size(40, 40);
             this.buttonRotLeft.TabIndex = 2;
             this.buttonRotLeft.UseVisualStyleBackColor = false;
+            this.buttonRotLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonRotLeft_MouseDown);
+            this.buttonRotLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonRotLeft_MouseUp);
             // 
             // buttonRotRight
             // 
@@ -96,6 +100,8 @@ namespace Roshchina_Anastasia_pri117_railway
             this.buttonRotRight.Size = new System.Drawing.Size(40, 40);
             this.buttonRotRight.TabIndex = 3;
             this.buttonRotRight.UseVisualStyleBackColor = false;
+            this.buttonRotRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonRotRight_MouseDown);
+            this.buttonRotRight.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonRotRight_MouseUp);
             // 
             // buttonBack
             // 
@@ -109,6 +115,8 @@ namespace Roshchina_Anastasia_pri117_railway
             this.buttonBack.Size = new System.Drawing.Size(40, 40);
             this.buttonBack.TabIndex = 4;
             this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonBack_MouseDown);
+            this.buttonBack.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBack_MouseUp);
             // 
             // buttonLeft
             // 
@@ -122,6 +130,8 @@ namespace Roshchina_Anastasia_pri117_railway
             this.buttonLeft.Size = new System.Drawing.Size(40, 40);
             this.buttonLeft.TabIndex = 5;
             this.buttonLeft.UseVisualStyleBackColor = false;
+            this.buttonLeft.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonLeft_MouseDown);
+            this.buttonLeft.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonLeft_MouseUp);
             // 
             // buttonRight
             // 
@@ -135,6 +145,8 @@ namespace Roshchina_Anastasia_pri117_railway
             this.buttonRight.Size = new System.Drawing.Size(40, 40);
             this.buttonRight.TabIndex = 6;
             this.buttonRight.UseVisualStyleBackColor = false;
+            this.buttonRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonRight_MouseDown);
+            this.buttonRight.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonRight_MouseUp);
             // 
             // buttonToStart
             // 
@@ -148,6 +160,7 @@ namespace Roshchina_Anastasia_pri117_railway
             this.buttonToStart.Size = new System.Drawing.Size(40, 40);
             this.buttonToStart.TabIndex = 7;
             this.buttonToStart.UseVisualStyleBackColor = false;
+            this.buttonToStart.Click += new System.EventHandler(this.buttonToStart_Click);
             // 
             // RenderTimer
             // 

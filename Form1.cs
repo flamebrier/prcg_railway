@@ -7,7 +7,13 @@ namespace Roshchina_Anastasia_pri117_railway
 {
     public partial class Form1 : Form
     {
-        private double[] camera = new double[7];
+        public delegate double MovingCamera();
+
+        public static double[] camera = new double[7];
+
+        private double[] initialCamera = {
+            0,-10,-10,30,1,0,0.1
+        };
 
         public Form1()
         {
@@ -38,23 +44,17 @@ namespace Roshchina_Anastasia_pri117_railway
             Gl.glEnable(Gl.GL_LIGHT0);
             Gl.glEnable(Gl.GL_COLOR_MATERIAL);
 
-            camera[0] = 0;
-            camera[1] = 0;
-            camera[2] = -10;
-            camera[3] = 10;
-            camera[4] = 1;
-            camera[5] = 0;
-            camera[6] = 0.1;
+            camera = initialCamera;
 
             Draw();
         }
 
         private void RenderTimer_Tick(object sender, EventArgs e)
         {
-
+            Draw();
         }
 
-        // функция для отрисовки матрицы
+        // функция для отрисовки поверхности
         private void DrawGround()
         {
             Gl.glPushMatrix();
@@ -64,8 +64,6 @@ namespace Roshchina_Anastasia_pri117_railway
             Gl.glRotated(45, 0, 0, 1);
 
             Glut.glutSolidCylinder(300, 10, 4, 4);
-
-            Gl.glEnd();
 
             Gl.glPopMatrix();
         }
@@ -94,6 +92,124 @@ namespace Roshchina_Anastasia_pri117_railway
 
             // обновляем окно
             AnT.Invalidate();
+        }
+
+        EventHandler MovingForwardHandler = new EventHandler(MovingForward);
+        EventHandler MovingBackHandler = new EventHandler(MovingBack);
+        EventHandler MovingRightHandler = new EventHandler(MovingRight);
+        EventHandler MovingLeftHandler = new EventHandler(MovingLeft);
+        EventHandler RotateRightHandler = new EventHandler(RotateRight);
+        EventHandler RotateLeftHandler = new EventHandler(RotateLeft);
+
+        private static void MovingForward(object sender, EventArgs e)
+        {
+            if (camera[2] < -1)
+            {
+                camera[2]++;
+            }
+        }
+
+        private static void MovingBack(object sender, EventArgs e)
+        {
+            camera[2]--;
+        }
+
+        private static void MovingLeft(object sender, EventArgs e)
+        {
+            camera[0]++;
+        }
+
+        private static void MovingRight(object sender, EventArgs e)
+        {
+            camera[0]--;
+        }
+
+        private static void RotateRight(object sender, EventArgs e)
+        {
+            camera[4]++;
+        }
+
+        private static void RotateLeft(object sender, EventArgs e)
+        {
+            camera[4]--;
+        }
+
+        private void buttonForward_MouseDown(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick += MovingForwardHandler;
+            RenderTimer.Start();
+        }
+
+        private void buttonForward_MouseUp(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick -= MovingForwardHandler;
+            RenderTimer.Stop();
+        }
+
+        private void buttonBack_MouseDown(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick += MovingBackHandler;
+            RenderTimer.Start();
+        }
+
+        private void buttonBack_MouseUp(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick -= MovingBackHandler;
+            RenderTimer.Stop();
+        }
+
+        private void buttonLeft_MouseDown(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick += MovingLeftHandler;
+            RenderTimer.Start();
+        }
+        
+        private void buttonLeft_MouseUp(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick -= MovingLeftHandler;
+            RenderTimer.Stop();
+        }
+
+        private void buttonRight_MouseDown(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick += MovingRightHandler;
+            RenderTimer.Start();
+        }
+
+        private void buttonRight_MouseUp(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick -= MovingRightHandler;
+            RenderTimer.Stop();
+        }
+
+        private void buttonRotRight_MouseDown(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick += RotateRightHandler;
+            RenderTimer.Start();
+        }
+
+        private void buttonRotRight_MouseUp(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick -= RotateRightHandler;
+            RenderTimer.Stop();
+        }
+
+        private void buttonRotLeft_MouseDown(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick += RotateLeftHandler;
+            RenderTimer.Start();
+        }
+
+        private void buttonRotLeft_MouseUp(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick -= RotateLeftHandler;
+            RenderTimer.Stop();
+        }
+
+        private void buttonToStart_Click(object sender, EventArgs e)
+        {
+            camera = initialCamera;
+            Draw();
         }
     }
 }
