@@ -21,6 +21,8 @@ namespace Roshchina_Anastasia_pri117_railway
         private TexturesForObjects textureLoader;
         private anModelLoader model;
 
+        private int fieldSize = 500;
+
         public Form1()
         {
             InitializeComponent();
@@ -89,13 +91,13 @@ namespace Roshchina_Anastasia_pri117_railway
             // отрисовываем полигон 
             Gl.glBegin(Gl.GL_QUADS);
             // указываем поочередно вершины и текстурные координаты 
-            int quad_size = 50;
             int count = 25;
+            int quad_size = fieldSize / count;
 
-            int y = -quad_size * count / 2;
+            int y = -fieldSize / 2;
             for (int i = 0; i < count; i++)
             {
-                int x = -quad_size * count / 2;
+                int x = -fieldSize / 2;
                 for (int j = 0; j < count; j++)
                 {
                     Gl.glVertex3d(x - quad_size + j * quad_size, y - quad_size, 0);
@@ -129,6 +131,194 @@ namespace Roshchina_Anastasia_pri117_railway
                 model.DrawModel();
         }
 
+        private void DrawRail()
+        {
+            /*double[,] railContour =
+            {
+                {0, 0},
+                {58, 37},
+                {50, 61},
+                {30, 93},
+                {48, 132},
+                {70, 141},
+                {73, 147},
+                {145, 147},
+                {158, 137},
+                {183, 90},
+                {165, 60},
+                {149, 35},
+                {215, 0}
+            };*/
+
+            Gl.glPushMatrix();
+
+            Gl.glTranslated(0, 0, 0);
+            Gl.glRotated(90, 1, 0, 0);
+            Gl.glRotated(45, 0, 0, 1);
+
+            // включаем режим текстурирования
+            Gl.glEnable(Gl.GL_TEXTURE_2D);
+            Gl.glEnable(Gl.GL_NORMALIZE);
+
+            textureLoader.LoadTextureForModel("metal.jpg");
+            uint texture = textureLoader.GetTextureObj();
+
+            Gl.glActiveTexture(Gl.GL_TEXTURE0);
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture);
+
+            /*// отрисовываем полигон 
+            Gl.glBegin(Gl.GL_POLYGON);
+
+            int first;
+            double xA;
+            double xB;
+            double xC;
+            double xD;
+
+            double yA;
+            double yB;
+            double yC;
+            double yD;
+
+            double a0;
+            double a1;
+            double a2;
+            double a3;
+
+            double b0;
+            double b1;
+            double b2;
+            double b3;
+
+            double t;
+
+            double X;
+            double Y;
+
+            int N = 13;
+            for (int i = 1; i < N - 2; i++)
+            {
+                // реализация представленного в теоретическом описании алгоритма для калькуляции сплайна 
+                first = 1;
+                xA = railContour[i - 1, 0];
+                xB = railContour[i, 0];
+                xC = railContour[i + 1, 0];
+                xD = railContour[i + 2, 0];
+
+                yA = railContour[i - 1, 1];
+                yB = railContour[i, 1];
+                yC = railContour[i + 1, 1];
+                yD = railContour[i + 2, 1];
+
+                a3 = (-xA + 3 * (xB - xC) + xD) / 6.0;
+
+                a2 = (xA - 2 * xB + xC) / 2.0;
+
+                a1 = (xC - xA) / 2.0;
+
+                a0 = (xA + 4 * xB + xC) / 6.0;
+
+                b3 = (-yA + 3 * (yB - yC) + yD) / 6.0;
+
+                b2 = (yA - 2 * yB + yC) / 2.0;
+
+                b1 = (yC - yA) / 2.0;
+
+                b0 = (yA + 4 * yB + yC) / 6.0;
+
+                // отрисовка сегментов 
+
+                for (int j = 0; j <= N; j++)
+                {
+                    // параметр t на отрезке от 0 до 1 
+                    t = j / N;
+
+                    // генерация координат 
+                    X = (((a3 * t + a2) * t + a1) * t + a0);
+                    Y = (((b3 * t + b2) * t + b1) * t + b0);
+
+                    // и установка вершин 
+                    if (first == 1)
+                    {
+                        first = 0;
+                        Gl.glVertex3d(X, 0, -Y);
+                    }
+                    else
+                        Gl.glVertex3d(X, 0, -Y);
+
+                }
+            }
+            Gl.glVertex3d(railContour[0, 0], 0, -railContour[0, 1]);
+
+            // завершаем отрисовку 
+            Gl.glEnd();*/
+
+            //Glut.glutSolidCylinder(30, 10, 4, 4);
+
+            int[] segmentsRot =
+            {
+                0,0,0,0,0,10,30,0
+            };
+
+            int segmentLength = 70;
+            int railSize = 3;
+            int segmentsCount = segmentsRot.Length;
+
+            int x = -fieldSize / 2;
+            int currentRotation = 0;
+            int lastRotation = 0;
+            double deltaY = 0;
+            double deltaX = 0;
+            for (int i = 0; i < segmentsCount; i++)
+            {
+
+                if (segmentsRot[i] != lastRotation && segmentsRot[i] != 0)
+                {
+
+                    deltaY += Math.Sin(lastRotation) * segmentLength / 2.4;
+                    deltaX += segmentLength - Math.Sqrt((segmentLength * segmentLength) - (deltaY * 4 * deltaY));
+
+                    currentRotation += segmentsRot[i];
+                    lastRotation = segmentsRot[i];
+                }
+                else
+                {
+                    if (currentRotation != 0)
+                    {
+                        deltaY += deltaY;
+                        deltaX += deltaX;
+                    }
+                }
+
+                Gl.glPushMatrix();
+
+                Gl.glTranslated(x + i * segmentLength - deltaX, deltaY, -railSize * 2);
+                Gl.glRotated(90, 0, 1, 0);
+                Gl.glRotated(45, 0, 0, 1);
+                Gl.glRotated(currentRotation, 1, 0, 0);
+
+                Glut.glutSolidCylinder(railSize, segmentLength, 16, 16);
+                Gl.glPopMatrix();
+
+                Gl.glPushMatrix();
+
+                Gl.glTranslated(x + i * segmentLength - deltaX, deltaY, -railSize);
+                Gl.glRotated(90, 0, 1, 0);
+                Gl.glRotated(45, 0, 0, 1);
+                Gl.glRotated(currentRotation, 1, 0, 0);
+
+                Glut.glutSolidCylinder(railSize * 0.8, segmentLength, 4, 4);
+                Gl.glPopMatrix();
+
+
+            }
+
+            Gl.glPopMatrix();
+            // отключаем режим текстурирования
+            Gl.glDisable(Gl.GL_TEXTURE_2D);
+            Gl.glDisable(Gl.GL_NORMALIZE);
+        }
+
         private void Draw()
         {
 
@@ -147,6 +337,7 @@ namespace Roshchina_Anastasia_pri117_railway
 
             DrawGround();
             DrawBench();
+            DrawRail();
 
             Gl.glPopMatrix();
             Gl.glFlush();
