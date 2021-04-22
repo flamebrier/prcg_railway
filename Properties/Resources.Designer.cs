@@ -139,5 +139,25 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap round_zoom_in_black_24dp {
+            get {
+                object obj = ResourceManager.GetObject("round_zoom_in_black_24dp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap round_zoom_out_black_24dp {
+            get {
+                object obj = ResourceManager.GetObject("round_zoom_out_black_24dp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

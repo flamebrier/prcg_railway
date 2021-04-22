@@ -133,5 +133,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\round_zoom_in_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\round_zoom_out_black_24dp.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,6 +17,7 @@ namespace Roshchina_Anastasia_pri117_railway
             0,-10,-10,30,1,0,0.1
         };
 
+
         private TexturesForObjects textureLoader;
         private anModelLoader model;
 
@@ -28,6 +29,9 @@ namespace Roshchina_Anastasia_pri117_railway
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            textureLoader = new TexturesForObjects();
+            model = new anModelLoader();
+
             // инициализация OpenGL
             Glut.glutInit();
             Glut.glutInitDisplayMode(Glut.GLUT_RGB | Glut.GLUT_DOUBLE | Glut.GLUT_DEPTH);
@@ -37,8 +41,6 @@ namespace Roshchina_Anastasia_pri117_railway
             Il.ilEnable(Il.IL_ORIGIN_SET);
 
             Gl.glClearColor(255, 255, 255, 1);
-
-            Gl.glViewport(0, 0, AnT.Width, AnT.Height);
 
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
@@ -54,9 +56,6 @@ namespace Roshchina_Anastasia_pri117_railway
             Gl.glEnable(Gl.GL_COLOR_MATERIAL);
 
             camera = initialCamera;
-
-            textureLoader = new TexturesForObjects();
-            model = new anModelLoader();
 
             Draw();
 
@@ -77,8 +76,6 @@ namespace Roshchina_Anastasia_pri117_railway
             Gl.glRotated(90, 1, 0, 0);
             Gl.glRotated(45, 0, 0, 1);
 
-            //Gl.glBindTexture(Gl.GL_TEXTURE_2D, grassTexture);
-
             // включаем режим текстурирования
             Gl.glEnable(Gl.GL_TEXTURE_2D);
             Gl.glEnable(Gl.GL_NORMALIZE);
@@ -86,20 +83,20 @@ namespace Roshchina_Anastasia_pri117_railway
             textureLoader.LoadTextureForModel("grass.jpg");
             uint grassTexture = textureLoader.GetTextureObj();
 
-
-            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_WRAP_T, Gl.GL_REPEAT);
+            Gl.glActiveTexture(Gl.GL_TEXTURE0);
             Gl.glBindTexture(Gl.GL_TEXTURE_2D, grassTexture);
 
             // отрисовываем полигон 
             Gl.glBegin(Gl.GL_QUADS);
             // указываем поочередно вершины и текстурные координаты 
             int quad_size = 50;
+            int count = 25;
 
-            int y = -250;
-            for (int i = 0; i < 50; i++)
+            int y = -quad_size * count / 2;
+            for (int i = 0; i < count; i++)
             {
-                int x = -250;
-                for (int j = 0; j < 50; j++)
+                int x = -quad_size * count / 2;
+                for (int j = 0; j < count; j++)
                 {
                     Gl.glVertex3d(x - quad_size + j * quad_size, y - quad_size, 0);
                     Gl.glTexCoord2f(0, 0);
@@ -134,7 +131,6 @@ namespace Roshchina_Anastasia_pri117_railway
 
         private void Draw()
         {
-            Gl.glClearColor(0, 0, 0, 1);
 
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
 
@@ -165,38 +161,58 @@ namespace Roshchina_Anastasia_pri117_railway
         EventHandler MovingLeftHandler = new EventHandler(MovingLeft);
         EventHandler RotateRightHandler = new EventHandler(RotateRight);
         EventHandler RotateLeftHandler = new EventHandler(RotateLeft);
+        EventHandler ZoomInHandler = new EventHandler(ZoomIn);
+        EventHandler ZoomOutHandler = new EventHandler(ZoomOut);
+
+        static double scaleSpeed = 2;
 
         private static void MovingForward(object sender, EventArgs e)
         {
             if (camera[2] < -1)
             {
-                camera[2]++;
+                camera[2] += scaleSpeed;
             }
         }
 
         private static void MovingBack(object sender, EventArgs e)
         {
-            camera[2]--;
+            camera[2] -= scaleSpeed;
         }
 
         private static void MovingLeft(object sender, EventArgs e)
         {
-            camera[0]++;
+            camera[0] += scaleSpeed;
         }
 
         private static void MovingRight(object sender, EventArgs e)
         {
-            camera[0]--;
+            camera[0] -= scaleSpeed;
         }
 
         private static void RotateRight(object sender, EventArgs e)
         {
-            camera[4]++;
+            camera[4] += scaleSpeed;
         }
 
         private static void RotateLeft(object sender, EventArgs e)
         {
-            camera[4]--;
+            camera[4] -= scaleSpeed;
+        }
+
+        private static void ZoomIn(object sender, EventArgs e)
+        {
+            if (camera[6] < 5)
+            {
+                camera[6] += scaleSpeed / 10;
+            }
+        }
+
+        private static void ZoomOut(object sender, EventArgs e)
+        {
+            if (camera[6] > 0.1)
+            {
+                camera[6] -= scaleSpeed / 100;
+            }
         }
 
         private void buttonForward_MouseDown(object sender, MouseEventArgs e)
@@ -275,6 +291,35 @@ namespace Roshchina_Anastasia_pri117_railway
         {
             camera = initialCamera;
             Draw();
+        }
+
+        private void buttonZoomIn_MouseDown(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick += ZoomInHandler;
+            RenderTimer.Start();
+        }
+
+        private void buttonZoomIn_MouseUp(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick -= ZoomInHandler;
+            RenderTimer.Stop();
+        }
+
+        private void buttonZoomOut_MouseDown(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick += ZoomOutHandler;
+            RenderTimer.Start();
+        }
+
+        private void buttonZoomOut_MouseUp(object sender, MouseEventArgs e)
+        {
+            RenderTimer.Tick -= ZoomOutHandler;
+            RenderTimer.Stop();
+        }
+
+        private void trackBarZoom_Scroll(object sender, EventArgs e)
+        {
+            scaleSpeed = trackBarZoom.Value;
         }
     }
 }
