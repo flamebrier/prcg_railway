@@ -22,7 +22,7 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Roshchina_Anastasia_pri117_railway.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,17 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap round_arrow_back_black_24dp {
+        public static System.Drawing.Bitmap grass {
+            get {
+                object obj = ResourceManager.GetObject("grass", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap round_arrow_back_black_24dp {
             get {
                 object obj = ResourceManager.GetObject("round_arrow_back_black_24dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +83,7 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap round_arrow_downward_black_24dp {
+        public static System.Drawing.Bitmap round_arrow_downward_black_24dp {
             get {
                 object obj = ResourceManager.GetObject("round_arrow_downward_black_24dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +93,7 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap round_arrow_forward_black_24dp {
+        public static System.Drawing.Bitmap round_arrow_forward_black_24dp {
             get {
                 object obj = ResourceManager.GetObject("round_arrow_forward_black_24dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +103,7 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap round_arrow_upward_black_24dp {
+        public static System.Drawing.Bitmap round_arrow_upward_black_24dp {
             get {
                 object obj = ResourceManager.GetObject("round_arrow_upward_black_24dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +113,7 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap round_outlined_flag_black_24dp {
+        public static System.Drawing.Bitmap round_outlined_flag_black_24dp {
             get {
                 object obj = ResourceManager.GetObject("round_outlined_flag_black_24dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,7 +123,7 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap round_redo_black_24dp {
+        public static System.Drawing.Bitmap round_redo_black_24dp {
             get {
                 object obj = ResourceManager.GetObject("round_redo_black_24dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +133,7 @@ namespace Roshchina_Anastasia_pri117_railway.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap round_undo_black_24dp {
+        public static System.Drawing.Bitmap round_undo_black_24dp {
             get {
                 object obj = ResourceManager.GetObject("round_undo_black_24dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

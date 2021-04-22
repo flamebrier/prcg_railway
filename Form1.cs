@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Roshchina_Anastasia_pri117_railway.Roshchina_Anastasia_pri117_lab15;
+using System;
 using System.Windows.Forms;
+using Tao.DevIl;
 using Tao.FreeGlut;
 using Tao.OpenGl;
 
@@ -15,6 +17,9 @@ namespace Roshchina_Anastasia_pri117_railway
             0,-10,-10,30,1,0,0.1
         };
 
+        private TexturesForObjects textureLoader;
+        private anModelLoader model;
+
         public Form1()
         {
             InitializeComponent();
@@ -27,6 +32,10 @@ namespace Roshchina_Anastasia_pri117_railway
             Glut.glutInit();
             Glut.glutInitDisplayMode(Glut.GLUT_RGB | Glut.GLUT_DOUBLE | Glut.GLUT_DEPTH);
 
+            Il.ilInit();
+            Ilut.ilutInit();
+            Il.ilEnable(Il.IL_ORIGIN_SET);
+
             Gl.glClearColor(255, 255, 255, 1);
 
             Gl.glViewport(0, 0, AnT.Width, AnT.Height);
@@ -34,7 +43,7 @@ namespace Roshchina_Anastasia_pri117_railway
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
 
-            Glu.gluPerspective(45, (float)AnT.Width / (float)AnT.Height, 0.1, 200);
+            Glu.gluPerspective(45, AnT.Width / AnT.Height, 0.2, 200);
 
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
             Gl.glLoadIdentity();
@@ -46,7 +55,12 @@ namespace Roshchina_Anastasia_pri117_railway
 
             camera = initialCamera;
 
+            textureLoader = new TexturesForObjects();
+            model = new anModelLoader();
+
             Draw();
+
+            model.LoadModel("bench.ase");
         }
 
         private void RenderTimer_Tick(object sender, EventArgs e)
@@ -63,9 +77,59 @@ namespace Roshchina_Anastasia_pri117_railway
             Gl.glRotated(90, 1, 0, 0);
             Gl.glRotated(45, 0, 0, 1);
 
-            Glut.glutSolidCylinder(300, 10, 4, 4);
+            //Gl.glBindTexture(Gl.GL_TEXTURE_2D, grassTexture);
+
+            // включаем режим текстурирования
+            Gl.glEnable(Gl.GL_TEXTURE_2D);
+            Gl.glEnable(Gl.GL_NORMALIZE);
+
+            textureLoader.LoadTextureForModel("grass.jpg");
+            uint grassTexture = textureLoader.GetTextureObj();
+
+
+            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_WRAP_T, Gl.GL_REPEAT);
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, grassTexture);
+
+            // отрисовываем полигон 
+            Gl.glBegin(Gl.GL_QUADS);
+            // указываем поочередно вершины и текстурные координаты 
+            int quad_size = 50;
+
+            int y = -250;
+            for (int i = 0; i < 50; i++)
+            {
+                int x = -250;
+                for (int j = 0; j < 50; j++)
+                {
+                    Gl.glVertex3d(x - quad_size + j * quad_size, y - quad_size, 0);
+                    Gl.glTexCoord2f(0, 0);
+                    Gl.glVertex3d(x - quad_size + j * quad_size, y + quad_size, 0);
+                    Gl.glTexCoord2f(1, 0);
+                    Gl.glVertex3d(x + quad_size + j * quad_size, y + quad_size, 0);
+                    Gl.glTexCoord2f(1, 1);
+                    Gl.glVertex3d(x + quad_size + j * quad_size, y - quad_size, 0);
+                    Gl.glTexCoord2f(0, 1);
+                    x += quad_size;
+                }
+
+                y += quad_size;
+            }
+
+            // завершаем отрисовку 
+            Gl.glEnd();
+
+            //Glut.glutSolidCylinder(30, 10, 4, 4);
 
             Gl.glPopMatrix();
+            // отключаем режим текстурирования
+            Gl.glDisable(Gl.GL_TEXTURE_2D);
+            Gl.glDisable(Gl.GL_NORMALIZE);
+        }
+
+        private void DrawBench()
+        {
+            if (model != null)
+                model.DrawModel();
         }
 
         private void Draw()
@@ -86,6 +150,7 @@ namespace Roshchina_Anastasia_pri117_railway
             Gl.glRotated(camera[5], 0, 0, 1);
 
             DrawGround();
+            DrawBench();
 
             Gl.glPopMatrix();
             Gl.glFlush();
@@ -163,7 +228,7 @@ namespace Roshchina_Anastasia_pri117_railway
             RenderTimer.Tick += MovingLeftHandler;
             RenderTimer.Start();
         }
-        
+
         private void buttonLeft_MouseUp(object sender, MouseEventArgs e)
         {
             RenderTimer.Tick -= MovingLeftHandler;

@@ -77,11 +77,12 @@
     <Compile Include="ModelLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextureLoader.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -123,6 +124,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\round_undo_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GrassTexture.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\grass.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
