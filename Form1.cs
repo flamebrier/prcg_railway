@@ -134,10 +134,11 @@ namespace Roshchina_Anastasia_pri117_railway
         private void DrawRail()
         {
             textureLoader.LoadTextureForModel("metal.jpg");
-            uint texture = textureLoader.GetTextureObj();
+            uint metalTexture = textureLoader.GetTextureObj();
+            textureLoader.LoadTextureForModel("wood.jpg");
+            uint woodTexture = textureLoader.GetTextureObj();
 
             Gl.glEnable(Gl.GL_TEXTURE_2D);
-            Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture);
             Gl.glEnable(Gl.GL_TEXTURE_GEN_S);
             Gl.glEnable(Gl.GL_TEXTURE_GEN_T);
             Gl.glTexGeni(Gl.GL_S, Gl.GL_TEXTURE_GEN_MODE, Gl.GL_SPHERE_MAP);
@@ -161,24 +162,60 @@ namespace Roshchina_Anastasia_pri117_railway
             int x = -fieldSize / 2;
             int currentRotation = 0;
             double width = segmentLength / 2;
+
+           int step = segmentLength / 4;
             for (int i = 0; i < segmentsCount; i++)
             {
+                Gl.glBindTexture(Gl.GL_TEXTURE_2D, metalTexture);
+                Gl.glPushMatrix();
+                Gl.glTranslated(x + i * segmentLength, 0, 0);
+                Gl.glRotated(90, 0, 1, 0);
+                if (i == 0)
+                {
+                    Gl.glRotated(-30, 1, 0, 0);
+                    Gl.glTranslated(0, 2, width - 4);
+                }
 
                 Gl.glPushMatrix();
-                Gl.glTranslated(x + i * segmentLength, 0, -railSize * 2);
-                Gl.glRotated(90, 1, 0, 0);
-                Gl.glRotated(90, 0, 1, 0);
+                Gl.glTranslated(0,  0, -railSize * 2);
+                Glut.glutSolidCylinder(railSize, segmentLength, 16, 16);
+                Gl.glPushMatrix();
+                Gl.glTranslated(0, -width, 0);
                 Glut.glutSolidCylinder(railSize, segmentLength, 16, 16);
                 Gl.glPopMatrix();
-
-                Gl.glPushMatrix();
-                Gl.glTranslated(x + i * segmentLength, -width, -railSize * 2);
-                Gl.glRotated(90, 1, 0, 0);
-                Gl.glRotated(90, 0, 1, 0);
-                Glut.glutSolidCylinder(railSize, segmentLength, 16, 16);
                 Gl.glPopMatrix();
 
+
                 Gl.glPushMatrix();
+                Gl.glTranslated(0, 0, -railSize);
+                Glut.glutSolidCylinder(railSize * 0.8, segmentLength, 16, 16);
+                Gl.glPushMatrix();
+                Gl.glTranslated(0, -width, 0);
+                Glut.glutSolidCylinder(railSize * 0.8, segmentLength, 16, 16);
+                Gl.glPopMatrix();
+                Gl.glPopMatrix();
+
+                
+
+                Gl.glBindTexture(Gl.GL_TEXTURE_2D, woodTexture);
+
+                Gl.glPushMatrix();
+                Gl.glRotated(90, 1, 0, 0);
+                Gl.glTranslated(0, 5, 0);
+                
+                for (int j = 0; j < segmentLength - step; j += step)
+                {
+                    Gl.glTranslated(0, step, 0);
+                    Gl.glPushMatrix();
+                    Gl.glRotated(45, 0, 0, 1);
+                    Glut.glutSolidCylinder(railSize, width, 4, 4);
+                    Gl.glPopMatrix();
+                }
+
+                Gl.glPopMatrix();
+                Gl.glPopMatrix();
+
+                /*Gl.glPushMatrix();
                 Gl.glTranslated(x + i * segmentLength, 0, -railSize);
                 Gl.glRotated(90, 1, 0, 0);
                 Gl.glRotated(90, 0, 1, 0);
@@ -190,7 +227,7 @@ namespace Roshchina_Anastasia_pri117_railway
                 Gl.glRotated(90, 1, 0, 0);
                 Gl.glRotated(90, 0, 1, 0);
                 Glut.glutSolidCylinder(railSize * 0.8, segmentLength, 16, 16);
-                Gl.glPopMatrix();
+                Gl.glPopMatrix();*/
 
                 currentRotation += segmentsRot[i, 0];
             }
