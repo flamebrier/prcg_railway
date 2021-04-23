@@ -131,6 +131,41 @@ namespace Roshchina_Anastasia_pri117_railway
                 model.DrawModel();
         }
 
+
+        
+
+        private void DrawLever()
+        {
+            int leverHeight = 70;
+            textureLoader.LoadTextureForModel("metal.jpg");
+            uint metalTexture = textureLoader.GetTextureObj();
+
+            Gl.glEnable(Gl.GL_TEXTURE_2D);
+            Gl.glEnable(Gl.GL_TEXTURE_GEN_S);
+            Gl.glEnable(Gl.GL_TEXTURE_GEN_T);
+            Gl.glTexGeni(Gl.GL_S, Gl.GL_TEXTURE_GEN_MODE, Gl.GL_SPHERE_MAP);
+            Gl.glTexGeni(Gl.GL_T, Gl.GL_TEXTURE_GEN_MODE, Gl.GL_SPHERE_MAP);
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, metalTexture);
+
+            Gl.glPushMatrix();
+            Gl.glRotated(90, 1, 0, 0);
+            Gl.glTranslated(0, 0, -leverHeight);
+            Glut.glutSolidCylinder(1, leverHeight, 16, 16);
+
+            // отключаем режим текстурирования
+            Gl.glDisable(Gl.GL_TEXTURE_2D);
+            Gl.glDisable(Gl.GL_TEXTURE_GEN_S);
+            Gl.glDisable(Gl.GL_TEXTURE_GEN_T);
+            Gl.glDisable(Gl.GL_TEXTURE_2D);
+
+            Gl.glColor3d(1, 0.01, 0.01);
+            Glut.glutSolidSphere(2, 16, 16);
+            Gl.glPopMatrix();
+
+           
+        }
+
+
         private void DrawRail()
         {
             textureLoader.LoadTextureForModel("metal.jpg");
@@ -195,7 +230,6 @@ namespace Roshchina_Anastasia_pri117_railway
                 Gl.glPopMatrix();
                 Gl.glPopMatrix();
 
-                
 
                 Gl.glBindTexture(Gl.GL_TEXTURE_2D, woodTexture);
 
@@ -214,20 +248,6 @@ namespace Roshchina_Anastasia_pri117_railway
 
                 Gl.glPopMatrix();
                 Gl.glPopMatrix();
-
-                /*Gl.glPushMatrix();
-                Gl.glTranslated(x + i * segmentLength, 0, -railSize);
-                Gl.glRotated(90, 1, 0, 0);
-                Gl.glRotated(90, 0, 1, 0);
-                Glut.glutSolidCylinder(railSize * 0.8, segmentLength, 16, 16);
-                Gl.glPopMatrix();
-
-                Gl.glPushMatrix();
-                Gl.glTranslated(x + i * segmentLength, -width, -railSize);
-                Gl.glRotated(90, 1, 0, 0);
-                Gl.glRotated(90, 0, 1, 0);
-                Glut.glutSolidCylinder(railSize * 0.8, segmentLength, 16, 16);
-                Gl.glPopMatrix();*/
 
                 currentRotation += segmentsRot[i, 0];
             }
@@ -260,6 +280,11 @@ namespace Roshchina_Anastasia_pri117_railway
             DrawGround();
             DrawBench();
             DrawRail();
+            Gl.glPushMatrix();
+            Gl.glRotated(leverRotation, 0, 0, 1);
+            DrawLever();
+            Gl.glPopMatrix();
+
 
             Gl.glPopMatrix();
             Gl.glFlush();
@@ -276,8 +301,19 @@ namespace Roshchina_Anastasia_pri117_railway
         EventHandler RotateLeftHandler = new EventHandler(RotateLeft);
         EventHandler ZoomInHandler = new EventHandler(ZoomIn);
         EventHandler ZoomOutHandler = new EventHandler(ZoomOut);
+        EventHandler LeverHandler = new EventHandler(MovingLever);
 
         static double scaleSpeed = 2;
+        static int leverRotation = 0;
+        private static void MovingLever(object sender, EventArgs e)
+        {
+            if (leverRotation < 30)
+            {
+                leverRotation++;
+            } else
+            {
+            }
+        }
 
         private static void MovingForward(object sender, EventArgs e)
         {
@@ -433,6 +469,16 @@ namespace Roshchina_Anastasia_pri117_railway
         private void trackBarZoom_Scroll(object sender, EventArgs e)
         {
             scaleSpeed = trackBarZoom.Value;
+        }
+
+        private void lever_Click(object sender, EventArgs e)
+        {
+            RenderTimer.Tick += LeverHandler;
+            RenderTimer.Start();
+            if (leverRotation == 30)
+            {
+                RenderTimer.Stop();
+            }
         }
     }
 }

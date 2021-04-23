@@ -44,6 +44,7 @@ namespace Roshchina_Anastasia_pri117_railway
             this.buttonForward = new System.Windows.Forms.Button();
             this.trackBarZoom = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
+            this.lever = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).BeginInit();
             this.SuspendLayout();
             // 
@@ -222,11 +223,22 @@ namespace Roshchina_Anastasia_pri117_railway
             this.label1.TabIndex = 11;
             this.label1.Text = "Скорость передвижения";
             // 
+            // lever
+            // 
+            this.lever.Location = new System.Drawing.Point(836, 762);
+            this.lever.Name = "lever";
+            this.lever.Size = new System.Drawing.Size(75, 23);
+            this.lever.TabIndex = 12;
+            this.lever.Text = "Рычаг";
+            this.lever.UseVisualStyleBackColor = true;
+            this.lever.Click += new System.EventHandler(this.lever_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1205, 857);
+            this.Controls.Add(this.lever);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackBarZoom);
             this.Controls.Add(this.buttonZoomIn);
@@ -263,6 +275,7 @@ namespace Roshchina_Anastasia_pri117_railway
         private System.Windows.Forms.Button buttonZoomIn;
         private System.Windows.Forms.TrackBar trackBarZoom;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button lever;
     }
 }
 
